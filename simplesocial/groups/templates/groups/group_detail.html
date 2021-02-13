@@ -1,0 +1,27 @@
+{% ectends 'groups/group_base.html' %}
+{% block pregroup %}
+  <h1>{{ group.name }}</h1>
+  <h2>Member Count: {{ geoup.members.count }}</h2>
+
+  <div class="content">
+    {% if user in group.members.all %}
+      <a class="btn btn-warning" href="{% url 'groups:leave' slug=group.slug %}">
+        <span class="glyphicon glyphicon-remove-circle"></span>Leave</a>
+    {% else %}
+      <a class="btn btn-success" href="{% url 'groups:join' slug=group.slug %}">
+        <span class='glyphicon glyphicon-ok-circle'></span>Join</a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block groupcontent %}
+  <div class="col-md-8">
+    {% if group.post.count == 0 %}
+      <h2>No post to display in this group!</h2>
+    {% else %}
+      {% for post in group.post.all %}
+        {% include 'posts/_post.html' %}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}
